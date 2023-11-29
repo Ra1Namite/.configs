@@ -74,4 +74,11 @@ return require("packer").startup(function(use)
 		end,
 	})
 	use("lukas-reineke/indent-blankline.nvim")
+	use("windwp/nvim-ts-autotag")
+	use("RRethy/vim-illuminate")
+	use({
+		"nvim-lualine/lualine.nvim",
+		requires = { "nvim-tree/nvim-web-devicons", opt = true },
+	})
+	use("machakann/vim-highlightedyank")
 end)
