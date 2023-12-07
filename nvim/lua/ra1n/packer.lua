@@ -12,7 +12,6 @@ return require("packer").startup(function(use)
 		-- or                            , branch = '0.1.x',
 		requires = { { "nvim-lua/plenary.nvim" } },
 	})
-	print("hello")
 	use({
 		"craftzdog/solarized-osaka.nvim",
 		lazy = false,
