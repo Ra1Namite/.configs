@@ -37,46 +37,47 @@ end)
 
 require("mason").setup({})
 require("mason-lspconfig").setup({
-	ensure_installed = { "tsserver", "rust_analyzer", "pyright", "eslint", "lua_ls", "efm" },
+	ensure_installed = { "tsserver", "rust_analyzer", "pyright", "eslint", "lua_ls", "efm", "gopls" },
 	handlers = {
 		lsp_zero.default_setup,
 		-- lua_ls = function()
-			-- local lua_opts = lsp_zero.nvim_lua_ls()
-			-- require("lspconfig").lua_ls.setup(lua_opts)
+		-- local lua_opts = lsp_zero.nvim_lua_ls()
+		-- require("lspconfig").lua_ls.setup(lua_opts)
 		-- end,
-        lua_ls = require("lspconfig").lua_ls.setup({
-            capabilities = capabilities,
-            on_attach = on_attach,
-            settings = { -- custom settings for lua 
-                Lua = {
-                    -- make the language server recognize "vim" global 
-                    diagnostics = {
-                        globals = {"vim"}
-
-                    },
-                    workspace = {
-                        -- make language server aware of runtime files 
-                        library = {
-                            [vim.fn.expand("$VIMRUNTIME/lua")] =  true,
-                            [vim.fn.stdpath("config") .. "/lua"] = true,
-                        }
-                    }
-
-                }
-            }
-        }),
+		lua_ls = require("lspconfig").lua_ls.setup({
+			capabilities = capabilities,
+			on_attach = on_attach,
+			settings = { -- custom settings for lua
+				Lua = {
+					-- make the language server recognize "vim" global
+					diagnostics = {
+						globals = { "vim" },
+					},
+					workspace = {
+						-- make language server aware of runtime files
+						library = {
+							[vim.fn.expand("$VIMRUNTIME/lua")] = true,
+							[vim.fn.stdpath("config") .. "/lua"] = true,
+						},
+					},
+				},
+			},
+		}),
 
 		python = require("lspconfig").pyright.setup({
 			capabilities = capabilities,
 			on_attach = on_attach,
 			settings = {
 				pyright = {
+					completeUnimported = true,
 					disableOrganizeImports = false,
+					usePlaceholders = true,
 					analysis = {
 						useLibraryCodeForTypes = true,
 						autoSearchPaths = true,
 						diagnosticMode = "workspace",
 						autoImportCompletions = true,
+						unusedparams = true,
 					},
 				},
 			},
@@ -90,6 +91,28 @@ require("mason-lspconfig").setup({
 				"typescript",
 			},
 			root_dir = require("lspconfig").util.root_pattern("package.json", "tsconfig.json", ".git"),
+		}),
+
+		go = require("lspconfig").gopls.setup({
+
+			on_attach = on_attach,
+			capabilities = capabilities,
+			filetypes = {
+				"go",
+				"gomod",
+				"gowork",
+				"gotmpl",
+			},
+			root_dir = require("lspconfig").util.root_pattern("go.work", "go.mod", ".git"),
+			settings = {
+				gopls = {
+					completeUnimported = true,
+					usePlaceholders = true,
+					analyses = {
+						unusedparams = true,
+					},
+				},
+			},
 		}),
 
 		efm = require("lspconfig").efm.setup({
@@ -115,11 +138,18 @@ require("mason-lspconfig").setup({
 						require("efmls-configs.linters.ruff"),
 						require("efmls-configs.linters.mypy"),
 						require("efmls-configs.formatters.ruff"),
-                        require("efmls-configs.formatters.isort")
+						require("efmls-configs.formatters.isort"),
 					},
 					typescript = {
 						require("efmls-configs.linters.eslint_d"),
 						require("efmls-configs.formatters.prettier_d"),
+					},
+					go = {
+
+						require("efmls-configs.linters.golangci_lint"),
+						require("efmls-configs.formatters.gofumpt"),
+						require("efmls-configs.formatters.goimports"),
+						require("efmls-configs.formatters.golines"),
 					},
 				},
 			},

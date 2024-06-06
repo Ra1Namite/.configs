@@ -1,5 +1,5 @@
 require("nvim-ts-autotag").setup()
 
 require("lualine").setup({
-	sections = { lualine_a = { "buffers" } },
+	sections = { lualine_a = { "mode", "buffers" } },
 })

@@ -1,9 +1,15 @@
+
+# initialize starship prompt
+eval "$(starship init zsh)"
+
+export PATH=$PATH:/usr/local/go/bin:~/go/bin/
+export PATH=$PATH:~/java/jre1.8.0_401/bin/
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.config//zsh//.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
+#if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+#    source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+#fi
 
 # load aliasrc if it exists 
 [ -f "${ZDOTDIR}/aliasrc" ] && source "${ZDOTDIR}/aliasrc"
@@ -64,7 +70,23 @@ zstyle :compinstall filename '/home/sanjayarai/.zshrc'
 autoload -Uz compinit
 compinit
 # End of lines added by compinstall
-source $ZDOTDIR/plugins/powerlevel10k/powerlevel10k.zsh-theme
+#source $ZDOTDIR/plugins/powerlevel10k/powerlevel10k.zsh-theme
 
 # To customize prompt, run `p10k configure` or edit ~/.config//zsh//.p10k.zsh.
-[[ ! -f ~/.config//zsh//.p10k.zsh ]] || source ~/.config//zsh//.p10k.zsh
+#[[ ! -f ~/.config//zsh//.p10k.zsh ]] || source ~/.config//zsh//.p10k.zsh
+
+
+# pyenv setup 
+export PYENV_ROOT="$HOME/.pyenv"
+[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+
+# Restart your shell for the changes to take effect.
+
+# Load pyenv-virtualenv automatically by adding
+# the following to ~/.bashrc:
+
+eval "$(pyenv virtualenv-init -)"
+eval "$(zoxide init zsh)"
+
+

@@ -12,15 +12,17 @@ return require("packer").startup(function(use)
 		-- or                            , branch = '0.1.x',
 		requires = { { "nvim-lua/plenary.nvim" } },
 	})
-	use({
-		"craftzdog/solarized-osaka.nvim",
-		lazy = false,
-		priority = 1000,
-		opts = {},
-		config = function()
-			vim.cmd("colorscheme solarized-osaka")
-		end,
-	})
+	-- use({
+	-- 	"craftzdog/solarized-osaka.nvim",
+	-- 	lazy = false,
+	-- 	priority = 1000,
+	-- 	opts = {},
+	-- 	config = function()
+	-- 		vim.cmd("colorscheme solarized-osaka")
+	-- 	end,
+	-- })
+	use({ "catppuccin/nvim", as = "catppuccin" })
+
 	use("nvim-treesitter/nvim-treesitter", { run = ":TSUpdate" })
 
 	use("nvim-treesitter/playground")
